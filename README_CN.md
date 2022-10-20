@@ -269,13 +269,13 @@ bash scripts/run_eval_gpu.sh 0 ./default_config.yaml /path/to/ckpt /path/to/img_
 
 ```text
 PSNR:
-0-20%: 38.04
-20-40%: 29.39
-40-60%: 24.21
+0-20%: 
+20-40%: 
+40-60%: 
 SSIM:
-0-20%: 0.979
-20-40%: 0.922
-40-60%: 0.83
+0-20%: 
+20-40%: 
+40-60%: 
 ```
 
 ### [输出MINDIR](#contents)
@@ -299,25 +299,25 @@ bash scripts/run_export_gpu.sh 0 ./default_config.yaml /path/to/ckpt
 
 如果要推断Ascend 310上的网络，应将模型转换为MINDIR。`./logs/export_log.txt`, converted model will have the same name as ckpt except extension.
 
-## [Model Description](#contents)
+## [模型描述](#contents)
 
-### [Training Performance on GPU](#contents)
+### [在GPU上训练表现](#contents)
 
-| Parameter           | CTSDG (1p)                                                                                                                                                                                           |   
+| 参数           | CTSDG (1p)                                                                                                                                                                                           |   
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Resource            | GPU: 1*A100, CPU: 8                                                                                                                                                                                           |                                                                                                                                                                                       |
-| Uploaded date       | 10.15.2022                                                                                                                                                                                                   |                                                                                                                                                                                          |
-| Mindspore version   | 1.8.1                                                                                                                                                                                                        |                                                                                                                                                                                                    |
-| Dataset             | CELEBA, NVIDIA Irregular Mask Dataset                                                                                                                                                                        |                                                                                                                                                                    |
-| Training parameters | train_iter=350000, finetune_iter=150000, gen_lr_train=0.0002, gen_lr_finetune=0.00005, dis_lr_multiplier=0.1, batch_size=6                                                                                   |                                                                              
-| Optimizer           | Adam                                                                                                                                                                                                         |                                                                                                                                                                                                  
-| Loss function       | Reconstruction Loss (L1), Perceptual Loss (L1), Style Loss(L1), Adversarial Loss (BCE), Intermediate Loss (L1 + BCE)                                                                                         |                                                                                       |
-| Speed               | 573 ms / step                                                                                                                                                                                                |                                                                                                                                                                                           |
-| Metrics             | <table><tr><td></td><td>0-20%</td><td>20-40%</td><td>40-60%</td></tr><tr><td>PSNR</td><td>38.04</td><td>29.39</td><td>24.21</td></tr><tr><td>SSIM</td><td>0.979</td><td>0.922</td><td>0.83</td></tr></table> | <table><tr><td></td><td>0-20%</td><td>20-40%</td><td>40-60%</td></tr><tr><td>PSNR</td><td>37.74</td><td>29.17</td><td>24.01</td></tr><tr><td>SSIM</td><td>0.978</td><td>0.92</td><td>0.826</td></tr></table> |
+| 硬件资源           | GPU: 1*A100, CPU: 8                                                                                                                                                                                           |                                                                                                                                                                                       |
+| 更新日期       | 10.15.2022                                                                                                                                                                                                   |                                                                                                                                                                                          |
+| Mindspore版本   | 1.8.1                                                                                                                                                                                                        |                                                                                                                                                                                                    |
+| 数据集             | CELEBA, NVIDIA Irregular Mask Dataset                                                                                                                                                                        |                                                                                                                                                                    |
+| 训练参数 | train_iter=350000, finetune_iter=150000, gen_lr_train=0.0002, gen_lr_finetune=0.00005, dis_lr_multiplier=0.1, batch_size=6                                                                                   |                                                                              
+| 优化器           | Adam                                                                                                                                                                                                         |                                                                                                                                                                                                  
+| 损失函数       | Reconstruction Loss (L1), Perceptual Loss (L1), Style Loss(L1), Adversarial Loss (BCE), Intermediate Loss (L1 + BCE)                                                                                         |                                                                                       |
+| 速度               | 573 ms / step                                                                                                                                                                                                |                                                                                                                                                                                           |
+| 精度             | <table><tr><td></td><td>0-20%</td><td>20-40%</td><td>40-60%</td></tr><tr><td>PSNR</td><td>38.04</td><td>29.39</td><td>24.21</td></tr><tr><td>SSIM</td><td>0.979</td><td>0.922</td><td>0.83</td></tr></table> | <table><tr><td></td><td>0-20%</td><td>20-40%</td><td>40-60%</td></tr><tr><td>PSNR</td><td>37.79/td><td>29.29</td><td>24.24</td></tr><tr><td>SSIM</td><td>0.979</td><td>0.924</td><td>0.841</td></tr></table> |
 
 ## [随机情况描述](#contents)
 
-`train.py` script use mindspore.set_seed() to set global random seed, which can be modified.  
+`train.py`脚本使用mindspore.set_seed（）设置全局随机种子，可以修改。
 
 ## [ModelZoo主页](#contents)
 

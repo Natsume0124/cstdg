@@ -41,12 +41,12 @@
 
   ```text
     .
-    ├── img_align_celeba            # images folder
-    ├── irregular_mask              # masks for training
+    ├── img_align_celeba            # 图像文件夹
+    ├── irregular_mask              # 用于训练的掩盖
     │   └── disocclusion_img_mask
-    ├── mask                        # masks for testing
+    ├── mask                        # 用于测试的掩盖
     │   └── testing_mask_dataset
-    └── list_eval_partition.txt     # train/val/test splits
+    └── list_eval_partition.txt     # train/val/test 拆分
   ```
 
 ## [环境需求](#contents)
@@ -93,18 +93,18 @@ bash scripts/run_distribute_train_gpu.sh [DEVICE_NUM] [CFG_PATH] [SAVE_PATH] [VG
 
 ```shell
 # 单设备训练
-# DEVICE_ID - device number for training
-# CFG_PATH - path to config
-# SAVE_PATH - path to save logs and checkpoints
-# VGG_PRETRAIN - path to pretrained VGG16
-# IMAGES_PATH - path to CELEBA dataset
-# MASKS_PATH - path to masks for training
-# ANNO_PATH - path to file with train/val/test splits
+# DEVICE_ID - 设备ID
+# CFG_PATH - 配置路径
+# SAVE_PATH - 保存日志和模型的路径
+# VGG_PRETRAIN - 已预训练VGG16的路径
+# IMAGES_PATH - CELEBA路径
+# MASKS_PATH - 用于训练掩盖的路径
+# ANNO_PATH - 用于train/val/test文件·路径
 bash scripts/run_standalone_train_gpu.sh 0 ./default_config.yaml /path/to/output /path/to/vgg16_feat_extr.ckpt /path/to/img_align_celeba /path/to/training_mask /path/to/list_eval_partitions.txt
 
 # 分布式训练 (8p)
-# DEVICE_NUM - number of devices for training
-# other parameters as for standalone train
+# DEVICE_NUM - 训练设备的数量
+# 其他参数跟独立训练的参数一样
 bash scripts/run_distribute_train_gpu.sh 8 ./default_config.yaml /path/to/output /path/to/vgg16_feat_extr.ckpt /path/to/img_align_celeba /path/to/training_mask /path/to/list_eval_partitions.txt
 ```
 
@@ -119,12 +119,12 @@ Example:
 
 ```shell
 # evaluate
-# DEVICE_ID - device number for evaluating
-# CFG_PATH - path to config
-# CKPT_PATH - path to ckpt for evaluation
-# IMAGES_PATH - path to img_align_celeba dataset
-# MASKS_PATH - path to masks for testing
-# ANNO_PATH - path to file with train/val/test splits
+# DEVICE_ID - 设备ID
+# CFG_PATH - 配置路径
+# CKPT_PATH - 用于评估的ckpt文件路径
+# IMAGES_PATH - img_align_celeba数据集路径
+# MASKS_PATH - 用于测试掩盖的路径
+# ANNO_PATH - 用于train/val/test拆分文件的路径
 bash scripts/run_eval_gpu.sh 0 ./default_config.yaml /path/to/ckpt /path/to/img_align_celeba /path/to/testing_mask /path/to/list_eval_partitions.txt  
 ```
 
@@ -133,44 +133,41 @@ bash scripts/run_eval_gpu.sh 0 ./default_config.yaml /path/to/ckpt /path/to/img_
 ### [脚本和示例代码](#contents)
 
 ```text
-.
-└── CTSDG
-    ├── model_utils
-    │   ├── __init__.py                     # init file
-    │   └── config.py                       # parse arguments
-    ├── scripts
-    │   ├── run_distribute_train_gpu.sh     # launch distributed training(8p) on GPU
-    │   ├── run_eval_gpu.sh                 # launch evaluating on GPU
-    │   ├── run_export_gpu.sh               # launch export mindspore model to mindir
-    │   └── run_standalone_train_gpu.sh     # launch standalone traininng(1p) on GPU
-    ├── src
-    │   ├── discriminator
-    │   │   ├── __init__.py                 # init file
-    │   │   ├── discriminator.py            # discriminator
-    │   │   └── spectral_conv.py            # conv2d with spectral normalization
-    │   ├── generator
-    │   │   ├── __init__.py                 # init file
-    │   │   ├── bigff.py                    # bidirectional gated feature fusion
-    │   │   ├── cfa.py                      # contextual feature aggregation
-    │   │   ├── generator.py                # generator
-    │   │   ├── pconv.py                    # partial convolution
-    │   │   ├── projection.py               # feature to texture and texture to structure parts
-    │   │   └── vgg16.py                    # VGG16 feature extractor
-    │   ├── __init__.py                     # init file
-    │   ├── callbacks.py                    # callbacks
-    │   ├── dataset.py                      # celeba dataset
-    │   ├── initializer.py                  # weight initializer
-    │   ├── losses.py                       # model`s losses
-    │   ├── trainer.py                      # trainer for ctsdg model
-    │   └── utils.py                        # utils
-    ├── __init__.py                         # init file
-    ├── converter.py                        # convert VGG16 torch checkpoint to mindspore
-    ├── default_config.yaml                 # config file
-    ├── eval.py                             # evaluate mindspore model
-    ├── export.py                           # export mindspore model to mindir format
-    ├── README.md                           # readme file
-    ├── requirements.txt                    # requirements
-    └── train.py                            # train mindspore model
+ .
+ ├── configs
+ │   └── jester_config.yaml               #用于在GPU上训练的参数配置
+ ├── model_utils                          #ModelArts工具
+ │   ├── __init__.py
+ │   ├── config.py                        #读取参数配置
+ │   ├── device_adapter.py                #设备适应
+ │   ├── local_adapter.py                 #本地适应
+ │   ├── logging.py	                  #获得日志
+ │   ├── moxing_adapter.py		  #适配ModelArts
+ │   └── util.py
+ ├── scripts
+ │   ├── convert_bn_inception.sh
+ │   ├── preprocess_jester_dataset.sh
+ │   ├── run_distributed_train_gpu.sh
+ │   ├── run_eval_gpu.sh
+ │   ├── run_export_gpu.sh
+ │   ├── run_standalone_train_gpu.sh
+ │   └── unpack_jester_dataset.sh
+ ├── src
+ │   ├── __init__.py
+ │   ├── bn_inception.py                 #读取bn_inception预训练模型
+ │   ├── convert_bn_inception.py         #转化bn_inception模型
+ │   ├── preprocess_jester_dataset.py    #处理
+ │   ├── train_cell.py			 #训练神经元
+ │   ├── transforms.py                   #模型转化
+ │   ├── trn.py   		         #trn神经网络
+ │   ├── tsn.py                          #tsn神经网络
+ │   ├── tsn_dataset.py                  #处理tsn数据集
+ │   └── utils.py
+ ├── eval.py				 #测试模型
+ ├── export.py                           #输出模型
+ ├── README.md             	         #TRN模型说明
+ ├── requirements.txt			 #需求文件
+ └── train.py				#训练模型
 ```
 
 ### [脚本参数](#contents)
@@ -178,13 +175,13 @@ bash scripts/run_eval_gpu.sh 0 ./default_config.yaml /path/to/ckpt /path/to/img_
 训练参数可以在`default_config.yaml`中配置
 
 ```text
-"gen_lr_train": 0.0002,                     # learning rate for generator training stage
-"gen_lr_finetune": 0.00005,                 # learning rate for generator finetune stage
-"dis_lr_multiplier": 0.1,                   # discriminator`s lr is generator`s lr multiply by this parameter
-"batch_size": 6,                            # batch size
-"train_iter": 350000,                       # number of training iterations
-"finetune_iter": 150000                     # number of finetune iterations
-"image_load_size": [256, 256]               # input image size
+"gen_lr_train": 0.0002,                     # 用于生成器训练的学习率
+"gen_lr_finetune": 0.00005,                 # 用于生成器微调的学习率
+"dis_lr_multiplier": 0.1,                   # 鉴别器的学习率是生成器的学习率乘以该参数
+"batch_size": 6,                            # 批次大小
+"train_iter": 350000,                       # 训练迭代器数量
+"finetune_iter": 150000                     # 微调迭代器数量
+"image_load_size": [256, 256]               # 输入图像大小
 ```
 
 有关更多参数，请参阅“default_config.yaml”的内容
@@ -196,13 +193,13 @@ bash scripts/run_eval_gpu.sh 0 ./default_config.yaml /path/to/ckpt /path/to/img_
 ##### 单设备运行 (1p)
 
 ```shell
-# DEVICE_ID - device number for training (0)
-# CFG_PATH - path to config (./default_config.yaml)
-# SAVE_PATH - path to save logs and checkpoints (/path/to/output)
-# VGG_PRETRAIN - path to pretrained VGG16 (/path/to/vgg16_feat_extr.ckpt)
-# IMAGES_PATH - path to CELEBA dataset (/path/to/img_align_celeba)
-# MASKS_PATH - path to masks for training (/path/to/training_mask)
-# ANNO_PATH - path to file with train/val/test splits (/path/to/list_eval_partitions.txt)
+# DEVICE_ID - 设备ID (0)
+# CFG_PATH - 配置路径 (./default_config.yaml)
+# SAVE_PATH - 保存日志和模型的路径 (/path/to/output)
+# VGG_PRETRAIN - 已预训练VGG16的路径 (/path/to/vgg16_feat_extr.ckpt)
+# IMAGES_PATH - CELEBA数据集路径 (/path/to/img_align_celeba)
+# MASKS_PATH - 用于训练掩盖的路径 (/path/to/training_mask)
+# ANNO_PATH - 用于train/val/test拆分文件的路径 (/path/to/list_eval_partitions.txt)
 bash scripts/run_standalone_train_gpu.sh 0 ./default_config.yaml /path/to/output /path/to/vgg16_feat_extr.ckpt /path/to/img_align_celeba /path/to/training_mask /path/to/list_eval_partitions.txt
 ```
 
@@ -225,8 +222,8 @@ DATE TIME iter: 1000, loss_g: 18.062999725341797, loss_d: 1.7960000038146973, st
 ##### 分布式训练 (8p)
 
 ```shell
-# DEVICE_NUM - number of devices for training (8)
-# other parameters as for standalone train
+# DEVICE_NUM - 设备ID (8)
+# 其他参数跟独立训练的参数一样
 bash scripts/run_distribute_train_gpu.sh 8 ./default_config.yaml /path/to/output /path/to/vgg16_feat_extr.ckpt /path/to/img_align_celeba /path/to/training_mask /path/to/list_eval_partitions.txt
 ```
 
@@ -257,12 +254,12 @@ bash scripts/run_eval_gpu.sh [DEVICE_ID] [CFG_PATH] [CKPT_PATH] [IMAGES_PATH] [M
 示例:
 
 ```shell
-# DEVICE_ID - device number for evaluating (0)
-# CFG_PATH - path to config (./default_config.yaml)
-# CKPT_PATH - path to ckpt for evaluation (/path/to/ckpt)
-# IMAGES_PATH - path to img_align_celeba dataset (/path/to/img_align_celeba)
-# MASKS_PATH - path to masks for testing (/path/to/testing/mask)
-# ANNO_PATH - path to file with train/val/test splits (/path/to/list_eval_partitions.txt)
+# DEVICE_ID - 设备ID (0)
+# CFG_PATH - 配置路径 (./default_config.yaml)
+# CKPT_PATH - 用于评估模型的路径 (/path/to/ckpt)
+# IMAGES_PATH - img_align_celeba数据集路径 (/path/to/img_align_celeba)
+# MASKS_PATH - 测试掩盖数据集路径 (/path/to/testing/mask)
+# ANNO_PATH - 用于train/val/test分割文件路径 (/path/to/list_eval_partitions.txt)
 bash scripts/run_eval_gpu.sh 0 ./default_config.yaml /path/to/ckpt /path/to/img_align_celeba /path/to/testing_mask /path/to/list_eval_partitions.txt
 ```
 

@@ -141,8 +141,8 @@ bash scripts/run_eval_gpu.sh 0 ./default_config.yaml /path/to/ckpt /path/to/img_
  │   ├── config.py                        #读取参数配置
  │   ├── device_adapter.py                #设备适应
  │   ├── local_adapter.py                 #本地适应
- │   ├── logging.py	                    #获得日志
- │   ├── moxing_adapter.py		    #适配ModelArts
+ │   ├── logging.py	                     #获得日志
+ │   ├── moxing_adapter.py		       #适配ModelArts
  │   └── util.py
  ├── scripts
  │   ├── convert_bn_inception.sh
@@ -278,7 +278,7 @@ SSIM:
 40-60%: 0.83
 ```
 
-### [Export MINDIR](#contents)
+### [输出MINDIR](#contents)
 
 如果要推断Ascend 310上的网络，应将模型转换为MINDIR。
 
@@ -291,9 +291,9 @@ bash scripts/run_export_gpu.sh [DEVICE_ID] [CFG_PATH] [CKPT_PATH]
 示例:
 
 ```shell
-# DEVICE_ID - device number (0)
-# CFG_PATH - path to config (./default_config.yaml)
-# CKPT_PATH - path to ckpt for evaluation (/path/to/ckpt)
+# DEVICE_ID - 设备ID (0)
+# CFG_PATH - 配置路径 (./default_config.yaml)
+# CKPT_PATH - ckpt评估文件路径 (/path/to/ckpt)
 bash scripts/run_export_gpu.sh 0 ./default_config.yaml /path/to/ckpt
 ```
 
@@ -303,16 +303,16 @@ bash scripts/run_export_gpu.sh 0 ./default_config.yaml /path/to/ckpt
 
 ### [Training Performance on GPU](#contents)
 
-| Parameter           | CTSDG (1p)                                                                                                                                                                                                   | CTSDG (8p)                                                                                                                                                                                                   |
+| Parameter           | CTSDG (1p)                                                                                                                                                                                           |   
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Resource            | GPU: 1*A100, CPU: 8                                                                                                                                                                                           | 8x Nvidia RTX 3090                                                                                                                                                                                           |
-| Uploaded date       | 10.15.2022                                                                                                                                                                                                   | 03.06.2022                                                                                                                                                                                                   |
-| Mindspore version   | 1.8.1                                                                                                                                                                                                        | 1.6.1                                                                                                                                                                                                        |
-| Dataset             | CELEBA, NVIDIA Irregular Mask Dataset                                                                                                                                                                        | CELEBA, NVIDIA Irregular Mask Dataset                                                                                                                                                                        |
-| Training parameters | train_iter=350000, finetune_iter=150000, gen_lr_train=0.0002, gen_lr_finetune=0.00005, dis_lr_multiplier=0.1, batch_size=6                                                                                   | train_iter=43750, finetune_iter=18750, gen_lr_train=0.002, gen_lr_finetune=0.0005, dis_lr_multiplier=0.1, batch_size=6                                                                                       |
-| Optimizer           | Adam                                                                                                                                                                                                         | Adam                                                                                                                                                                                                         |
-| Loss function       | Reconstruction Loss (L1), Perceptual Loss (L1), Style Loss(L1), Adversarial Loss (BCE), Intermediate Loss (L1 + BCE)                                                                                         | Reconstruction Loss (L1), Perceptual Loss (L1), Style Loss(L1), Adversarial Loss (BCE), Intermediate Loss (L1 + BCE)                                                                                         |
-| Speed               | 573 ms / step                                                                                                                                                                                                | 759 ms / step                                                                                                                                                                                                |
+| Resource            | GPU: 1*A100, CPU: 8                                                                                                                                                                                           |                                                                                                                                                                                       |
+| Uploaded date       | 10.15.2022                                                                                                                                                                                                   |                                                                                                                                                                                          |
+| Mindspore version   | 1.8.1                                                                                                                                                                                                        |                                                                                                                                                                                                    |
+| Dataset             | CELEBA, NVIDIA Irregular Mask Dataset                                                                                                                                                                        |                                                                                                                                                                    |
+| Training parameters | train_iter=350000, finetune_iter=150000, gen_lr_train=0.0002, gen_lr_finetune=0.00005, dis_lr_multiplier=0.1, batch_size=6                                                                                   |                                                                              |
+| Optimizer           | Adam                                                                                                                                                                                                         |                                                                                                                                                                                                  |
+| Loss function       | Reconstruction Loss (L1), Perceptual Loss (L1), Style Loss(L1), Adversarial Loss (BCE), Intermediate Loss (L1 + BCE)                                                                                         |                                                                                       |
+| Speed               | 573 ms / step                                                                                                                                                                                                |                                                                                                                                                                                           |
 | Metrics             | <table><tr><td></td><td>0-20%</td><td>20-40%</td><td>40-60%</td></tr><tr><td>PSNR</td><td>38.04</td><td>29.39</td><td>24.21</td></tr><tr><td>SSIM</td><td>0.979</td><td>0.922</td><td>0.83</td></tr></table> | <table><tr><td></td><td>0-20%</td><td>20-40%</td><td>40-60%</td></tr><tr><td>PSNR</td><td>37.74</td><td>29.17</td><td>24.01</td></tr><tr><td>SSIM</td><td>0.978</td><td>0.92</td><td>0.826</td></tr></table> |
 
 ## [随机情况描述](#contents)

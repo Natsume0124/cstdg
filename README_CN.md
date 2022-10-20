@@ -141,8 +141,8 @@ bash scripts/run_eval_gpu.sh 0 ./default_config.yaml /path/to/ckpt /path/to/img_
  │   ├── config.py                        #读取参数配置
  │   ├── device_adapter.py                #设备适应
  │   ├── local_adapter.py                 #本地适应
- │   ├── logging.py	                  #获得日志
- │   ├── moxing_adapter.py		  #适配ModelArts
+ │   ├── logging.py	                    #获得日志
+ │   ├── moxing_adapter.py		    #适配ModelArts
  │   └── util.py
  ├── scripts
  │   ├── convert_bn_inception.sh
@@ -167,7 +167,7 @@ bash scripts/run_eval_gpu.sh 0 ./default_config.yaml /path/to/ckpt /path/to/img_
  ├── export.py                           #输出模型
  ├── README.md             	         #TRN模型说明
  ├── requirements.txt			 #需求文件
- └── train.py				#训练模型
+ └── train.py			        	#训练模型
 ```
 
 ### [脚本参数](#contents)
